@@ -36,7 +36,6 @@
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -99,7 +98,10 @@
             "Сглаживающий многочлен 3 степени (вручную)",
             "Сглаживающий многочлен 2 степени (вручную)",
             "Сглаживающий многочлен 1 степени (вручную)",
-            "Интерполяционный многочлен, рассчитанный по СУ"});
+            "Интерполяционный многочлен, рассчитанный по СУ",
+            "Кубический сплайн",
+            "1 производная",
+            "2 производная"});
             this.checkedListBox1.Location = new System.Drawing.Point(22, 123);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(457, 213);
@@ -124,21 +126,11 @@
             this.textBox4.Text = ";";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(106, 84);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(131, 22);
-            this.textBox5.TabIndex = 12;
-            this.textBox5.Text = ";";
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.checkedListBox1);
@@ -163,7 +155,6 @@
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
     }
 }
 
