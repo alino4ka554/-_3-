@@ -23,13 +23,26 @@ namespace вычмат_3лаба
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+           try
             {
                 float[] x = textBox1.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(str => float.Parse(str.Trim())).ToArray();
                 float[] fx = textBox2.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(str => float.Parse(str.Trim())).ToArray();
                 float[] a = textBox3.Text.Split(new[] { '+','x', '^', ' ', '*' }, StringSplitOptions.RemoveEmptyEntries).Select(str => float.Parse(str.Trim())).ToArray();
                 float[] interval = textBox4.Text.Split(new[] { ';',' ' }, StringSplitOptions.RemoveEmptyEntries).Select(str => float.Parse(str.Trim())).ToArray();
-                
+
+                //float[] x1 = new float[x.Length];
+                Array.Sort(x);
+                //int max = (int)x.Max();
+                //float[] counts = new float[max + 1];
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (i!=x.Length - 1 && x[i] == x[i + 1])
+                    {
+                        MessageBox.Show("Ошибка!");
+                        return;
+                    }
+                }
+
                 List<int> index = new List<int>();  
                 foreach(int indexChecked in checkedListBox1.CheckedIndices) //смотрим какой график выбрал пользователь
                 {
@@ -39,7 +52,7 @@ namespace вычмат_3лаба
                 chart.Show();
                
             }
-            catch
+           catch
             {
                 MessageBox.Show("Ошибка!");
             }
@@ -278,38 +291,25 @@ namespace вычмат_3лаба
             }
             float[][] a1 = new float[h.Length - 1][];
             float[] b1 = new float[h.Length - 1];
-            for (int i = 2; i <= h.Length; i++)
-            {
-                a1[i - 2] = new float[h.Length - 1];
-
-                if (i == 2)
-                {
-                    a1[i - 2][0] = 2 * (h[i - 2] + h[i - 1]);
-                    a1[i - 2][1] = h[i - 1];
-                    a1[i - 2][2] = 0;
-                }
-                else if (i == h.Length)
-                {
-                    a1[i - 2][0] = 0;
-                    a1[i - 2][1] = h[i - 2];
-                    a1[i - 2][2] = 2 * (h[i - 2] + h[i - 1]);
-                }
-                else
-                {
-                    a1[i - 2][0] = h[i - 2];
-                    a1[i - 2][1] = 2 * (h[i - 2] + h[i - 1]);
-                    a1[i - 2][2] = h[i - 1];
-
-                }
-                b1[i - 2] = 3 * (((fx[i] - fx[i - 1]) / h[i - 1]) - ((fx[i - 1] - fx[i - 2]) / h[i - 2]));
-            }
             for (int i = 0; i < a1.Length; i++)
             {
-                for (int j = 0; j < a1.Length; j++)
+                a1[i] = new float[h.Length - 1];
+                for (int j = 0; j < a1[i].Length; j++)
                 {
-                    Console.Write($" {a1[i][j],10:F2}");
+                    if ((i == 0 && j == a1.Length - 1) || (i == a1.Length - 1 && j == 0))
+                        a1[i][j] = 0;
+                    else
+                    if (i == j)
+                        a1[i][j] = 2 * (h[j] + h[j + 1]);
+                    else
+                    if (i < j)
+                        a1[i][j] = h[j];
+                    else
+                    if (i > j)
+                        a1[i][j] = h[i];
                 }
-                Console.WriteLine($"   {b1[i],10:F2}");
+                //if(i!=a1.Length - 1)
+                b1[i] = 3 * (((fx[i+2] - fx[i + 1]) / h[i + 1]) - ((fx[i + 1] - fx[i]) / h[i]));
             }
             float[] a = new float[fx.Length - 1];
             for (int i = 0; i < fx.Length - 1; i++)
@@ -322,11 +322,6 @@ namespace вычмат_3лаба
             {
                 c[i] = progonka(i, a1, b1);
             }
-            Console.WriteLine("\nРешение:");
-            for (int i = 0; i < c.Length; i++)
-            {
-                Console.WriteLine($"c[{i}] = {c[i]}");
-            }
             float[] d = new float[h.Length];
             for (int i = 0; i < h.Length; i++)
             {
@@ -336,22 +331,13 @@ namespace вычмат_3лаба
                     d[i] = (c[i + 1] - c[i]) / (3 * h[i]);
             }
             float[] b = new float[h.Length];
+
             for (int i = 0; i < h.Length; i++)
             {
                 if (i == h.Length - 1)
                     b[i] = ((fx[i + 1] - fx[i]) / h[i]) - (((0 + 2 * c[i]) * h[i]) / 3);
                 else
                     b[i] = ((fx[i + 1] - fx[i]) / h[i]) - (((c[i + 1] + 2 * c[i]) * h[i]) / 3);
-            }
-            Console.WriteLine("\nРешение:");
-            for (int i = 0; i < d.Length; i++)
-            {
-                Console.WriteLine($"d[{i}] = {d[i]}");
-            }
-            Console.WriteLine("\nРешение:");
-            for (int i = 0; i < b.Length; i++)
-            {
-                Console.WriteLine($"b[{i}] = {b[i]}");
             }
             for (int i = 0; i < x.Length - 1; i++)
             {
